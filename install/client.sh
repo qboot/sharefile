@@ -17,7 +17,7 @@ sharefile client $version
 
 Hello, thank you for using sharefile.
 EOM
-);
+)
 
 welcome_new=$(cat <<EOM
 Lets create your client config file!
@@ -30,6 +30,19 @@ You have already a configured installation.
 !
 EOM
 ); welcome_existing=${welcome_existing%!}
+
+summary=$(cat <<EOM
+
+Config file successfully created!
+One final step before playing with fileshare...
+
+Give your public key to your fileshare server administrator.
+(or use it directly with push_key script if you have server root access)
+
+Your key:
+!
+EOM
+); summary=${summary%!}
 
 # UTILS
 
@@ -59,7 +72,7 @@ echo "$welcome"
 mkdir -p $root
 
 # check if config file exists
-if [ -f $root/.config ]; then
+if [ -f $config_file ]; then
     echo "$welcome_existing"
 
     while true; do
@@ -84,6 +97,8 @@ user=${user:-$default_user}
 create_ssh_key
 create_config_file
 
-printf "\nConfig file successfully created!\n"
+echo "$summary"
+
+cat $ssh_folder/$ssh_key.pub
 
 exit 0
