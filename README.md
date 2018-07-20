@@ -12,9 +12,18 @@ It synchronizes a local **sharefile** folder with a remote one using `rsync` and
 ```bash
 # for OS X users
 $ brew install fswatch
+```
 
+```bash
 # for Linux users (ONLY)
-$ ./install/fswatch.sh
+
+# install development tools
+$ yum group install 'Development Tools' # on CentOS/RHEL
+$ dnf group install 'Development Tools'	# on Fedora 22+ Versions
+$ sudo apt-get install build-essential  # on Debian/Ubuntu Versions
+
+# then run installation script
+$ sudo ./install/fswatch.sh
 ```
 
 ## Installation
@@ -23,11 +32,11 @@ $ ./install/fswatch.sh
 
 ### Step 1 - Install sharefile-server
 
-On your server, run the following commands:
+On your server, run the following commands (with root):
 
 ```bash
 $ git clone git@github.com:qboot/sharefile.git
-$ ./sharefile/install/server.sh
+$ sudo ./sharefile/install/server.sh
 ```
 
 ### Step 2 - Install sharefile-client
