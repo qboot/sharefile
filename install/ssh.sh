@@ -3,8 +3,8 @@
 # VARIABLES
 
 version=v0.1.0
-root=~/sharefile
-config_file=$root/.config
+absolute_path=~/sharefile
+config_file=$absolute_path/.config
 sudo_user=
 ssh_key=
 

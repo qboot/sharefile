@@ -26,12 +26,12 @@ check_root() {
 }
 
 create_user() {
-    root=/home/$user
+    absolute_path=/home/$user
 
     adduser --disabled-password --gecos "" $user >& /dev/null
-    mkdir -p $root/.ssh && touch $root/.ssh/authorized_keys
-    chmod -R 700 $root && chmod 600 $root/.ssh/authorized_keys
-    chown -R $user:$user $root
+    mkdir -p $absolute_path/.ssh && touch $absolute_path/.ssh/authorized_keys
+    chmod -R 700 $absolute_path && chmod 600 $absolute_path/.ssh/authorized_keys
+    chown -R $user:$user $absolute_path
 }
 
 delete_user() {
