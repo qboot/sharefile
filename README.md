@@ -47,8 +47,13 @@ On your personal computer, run the following commands:
 > You should not move or delete *sharefile* application folder after installation.
 
 ```bash
+# for OS X users
 $ git clone git@github.com:qboot/sharefile.git
 $ ./sharefile/install/client.sh
+
+# for Linux users (need root)
+$ git clone git@github.com:qboot/sharefile.git
+$ sudo ./sharefile/install/client.sh
 ```
 
 ### Step 3 - Add SSH authorized keys

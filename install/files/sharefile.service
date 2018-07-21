@@ -1,0 +1,15 @@
+[Unit]
+Description=sharefile - Dropbox-like open-source utility written in bash
+
+[Service]
+User=USER
+Type=simple
+TimeoutSec=0
+ExecStart=SCRIPT_PATH
+KillMode=process
+
+Restart=on-failure
+RestartSec=3s
+
+[Install]
+WantedBy=multi-user.target

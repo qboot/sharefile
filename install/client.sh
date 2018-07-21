@@ -14,6 +14,8 @@ refresh=5 # each five minutes
 cronjob="*/$refresh * * * * $absolute_path/../main/pull.sh > /dev/null 2>&1"
 daemon_osx_name=com.sharefile
 daemon_osx=$daemon_osx_name.plist
+daemon_linux_name=sharefile
+daemon_linux=$daemon_linux_name.service
 
 # TEXTS
 
@@ -81,7 +83,14 @@ create_cronjob() {
 }
 
 create_daemon_linux() {
-    echo TODO
+    launcher=/etc/systemd/system
+    input_file=$absolute_path/files/$daemon_linux
+    output_file=$launcher/$daemon_linux
+    startup_file=$absolute_path/../main/startup.sh
+
+    sed "s^USER^$( whoami )^g; s^SCRIPT_PATH^$startup_file^g" $input_file > $output_file
+    sudo systemctl stop $daemon_linux && sudo systemctl disable $daemon_linux
+    sudo systemctl enable $daemon_linux && sudo systemctl daemon-reload && sudo systemctl restart $daemon_linux
 }
 
 create_daemon_osx() {
@@ -138,11 +147,11 @@ user=${user:-$default_user}
 create_ssh_key
 create_config_file
 
+create_cronjob
+create_daemon
+
 echo "$summary"
 
 cat $ssh_folder/$ssh_key.pub
-
-create_cronjob
-create_daemon
 
 exit 0
