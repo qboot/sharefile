@@ -4,6 +4,7 @@
 
 version=v0.1.0
 default_user=sharefile
+absolute_path=$( cd "$(dirname "$0")" ; pwd -P )
 
 # TEXTS
 
@@ -25,21 +26,12 @@ check_root() {
     fi
 }
 
-create_user() {
-    absolute_path=/home/$user
-
-    adduser --disabled-password --gecos "" $user >& /dev/null
-    mkdir -p $absolute_path/.ssh && touch $absolute_path/.ssh/authorized_keys
-    chmod -R 700 $absolute_path && chmod 600 $absolute_path/.ssh/authorized_keys
-    chown -R $user:$user $absolute_path
-}
-
 delete_user() {
     userdel -r $user >& /dev/null
 }
 
-create_sharefile_folder() {
-    sudo -u $user mkdir -p /home/$user/sharefile
+create_jail() {
+    $absolute_path/jail.sh $user >/dev/null 2>&1
 }
 
 # MAIN
@@ -69,8 +61,7 @@ if id $user >/dev/null 2>&1; then
     fi
 fi
 
-create_user
-create_sharefile_folder
+create_jail
 
 printf "\nUser %s successfully created! Sharefile server is ready to work. Well done!\n" $user
 echo "You can now configure a sharefile client on a personal computer."
