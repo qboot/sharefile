@@ -3,9 +3,9 @@
 # VARIABLES
 
 version=v0.1.0
-absolute_path=~/sharefile
-config_file=$absolute_path/.config
-ssh_folder=$absolute_path/.ssh
+relative_path=~/sharefile
+config_file=$relative_path/.config
+ssh_folder=$relative_path/.ssh
 ssh_key=sharefile.key
 
 if [ ! -f $config_file ]; then
@@ -19,5 +19,5 @@ remote_folder=/home/$user/sharefile
 
 # MAIN
 
-local=$absolute_path
+local=$relative_path
 remote=$user@$server:$remote_folder

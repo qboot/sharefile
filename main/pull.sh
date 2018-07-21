@@ -10,4 +10,4 @@ fi
 
 . $base_file
 
-rsync -az -e "ssh -i $ssh_folder/$ssh_key" --exclude .ssh --exclude .config --exclude .DS_Store $remote/ $local
+rsync -az -e "ssh -oBatchMode=yes -i $ssh_folder/$ssh_key" --exclude .ssh --exclude .config --exclude .DS_Store $remote/ $local

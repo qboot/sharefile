@@ -12,6 +12,8 @@ ssh_folder=$relative_path/.ssh
 ssh_key=sharefile.key
 refresh=5 # each five minutes
 cronjob="*/$refresh * * * * $absolute_path/../main/pull.sh > /dev/null 2>&1"
+daemon_osx_name=com.sharefile
+daemon_osx=$daemon_osx_name.plist
 
 # TEXTS
 
@@ -78,6 +80,31 @@ create_cronjob() {
     rm -f $file_tmp
 }
 
+create_daemon_linux() {
+    echo TODO
+}
+
+create_daemon_osx() {
+    launcher=~/Library/LaunchAgents
+    input_file=$absolute_path/files/$daemon_osx
+    output_file=$launcher/$daemon_osx
+    startup_file=$absolute_path/../main/startup.sh
+    log_file=$absolute_path/../logs/output.log
+    error_file=$absolute_path/../logs/error.log
+
+    sed "s^SCRIPT_PATH^$startup_file^g; s^OUTPUT_PATH^$log_file^g; s^ERROR_PATH^$error_file^g" $input_file > $output_file
+    launchctl stop $daemon_osx_name && launchctl remove $daemon_osx_name
+    launchctl load $output_file && launchctl start $daemon_osx_name
+}
+
+create_daemon() {
+    case "$(uname -s)" in
+        Linux* ) create_daemon_linux;;
+        Darwin* ) create_daemon_osx;;
+        *) exit 1;;
+    esac
+}
+
 # MAIN
 
 echo "$welcome"
@@ -116,5 +143,6 @@ echo "$summary"
 cat $ssh_folder/$ssh_key.pub
 
 create_cronjob
+create_daemon
 
 exit 0
